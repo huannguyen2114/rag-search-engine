@@ -1,5 +1,5 @@
 [tools]
-python = "3.9.6"
+python = "3.11"
 uv = "latest"
 
 [tasks.sync]
@@ -8,7 +8,7 @@ run = "uv sync"
 
 [tasks.run]
 description = "Run the app (main.py) via uv"
-run = "uv run python main.py"
+run = "uv run -m cli.keyword_search_cli search"
 
 [tasks.add]
 description = "Add a dependency: mise run add -- <pkg> [more...]"
@@ -29,15 +29,15 @@ run = "uv run python"
 [tasks.clean]
 description = "Remove virtualenv and caches (safe-ish reset)"
 run = [
-  "rm -rf .venv",
-  "find . -type d -name '__pycache__' -prune -exec rm -rf {} +",
-  "find . -type f -name '*.pyc' -delete",
+    "rm -rf .venv",
+    "find . -type d -name '__pycache__' -prune -exec rm -rf {} +",
+    "find . -type f -name '*.pyc' -delete",
 ]
 
 [tasks.setup]
 description = "One-time-ish bootstrap: ensure tools, venv, deps"
 run = [
-  "mise install",
-  "uv venv",
-  "uv sync",
+    "mise install",
+    "uv venv",
+    "uv sync",
 ]
