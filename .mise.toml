@@ -1,0 +1,43 @@
+[tools]
+python = "3.9.6"
+uv = "latest"
+
+[tasks.sync]
+description = "Install/update deps from lockfile into .venv"
+run = "uv sync"
+
+[tasks.run]
+description = "Run the app (main.py) via uv"
+run = "uv run python main.py"
+
+[tasks.add]
+description = "Add a dependency: mise run add -- <pkg> [more...]"
+run = "uv add"
+
+[tasks.rm]
+description = "Remove a dependency: mise run rm -- <pkg> [more...]"
+run = "uv remove"
+
+[tasks.venv]
+description = "Create/refresh the virtualenv (.venv)"
+run = "uv venv"
+
+[tasks.py]
+description = "Run an arbitrary Python command via uv: mise run py -- -c '...'"
+run = "uv run python"
+
+[tasks.clean]
+description = "Remove virtualenv and caches (safe-ish reset)"
+run = [
+  "rm -rf .venv",
+  "find . -type d -name '__pycache__' -prune -exec rm -rf {} +",
+  "find . -type f -name '*.pyc' -delete",
+]
+
+[tasks.setup]
+description = "One-time-ish bootstrap: ensure tools, venv, deps"
+run = [
+  "mise install",
+  "uv venv",
+  "uv sync",
+]
