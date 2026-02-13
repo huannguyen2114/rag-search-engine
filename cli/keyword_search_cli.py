@@ -24,8 +24,6 @@ def main() -> None:
                 print("No results found.")
                 return
 
-            results = sorted(results, key=lambda m: m.id)[:5]
-
             for movie in results:
                 print(f"{movie.id}: {movie.title}")
 

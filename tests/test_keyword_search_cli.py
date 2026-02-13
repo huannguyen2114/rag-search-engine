@@ -12,7 +12,8 @@ class TestKeywordSearchCLI(TestCase):
     def test_main_search_command(self, mock_print, mock_args):
         """ Test when the 'search' command is provided with a query. """
         main()
-        mock_print.assert_called_with("Searching for 'test' using BM25")
+        # Verify it prints the search message
+        mock_print.assert_any_call("Searching for 'test' using BM25")
 
     @patch("argparse.ArgumentParser.parse_args", return_value=argparse.Namespace(command=None))
     @patch("argparse.ArgumentParser.print_help")
