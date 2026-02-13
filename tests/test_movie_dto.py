@@ -1,36 +1,29 @@
-from unittest import TestCase
-
-from dto.movie import MovieDTO
+from movie_search.domain.models import Movie
 
 
-class TestMovieDTO(TestCase):
+def test_movie_from_mapping_success() -> None:
+    data = {
+        "id": 1,
+        "title": "Inception",
+        "description": "Dream heist",
+    }
+    movie = Movie.from_mapping(data)
+    assert movie.id == 1
+    assert movie.title == "Inception"
+    assert movie.description == "Dream heist"
 
-    def test_from_dict_success(self):
-        data = {
-            "id": 1,
-            "title": "Inception",
-            "description": "A thief who steals corporate secrets through the use of dream-sharing technology."
-        }
-        movie = MovieDTO.from_dict(data)
-        self.assertEqual(movie.id, 1)
-        self.assertEqual(movie.title, "Inception")
-        self.assertEqual(movie.description,
-                         "A thief who steals corporate secrets through the use of dream-sharing technology.")
 
-    def test_from_dict_partial_data(self):
-        data = {"id": 2, "title": "The Matrix"}
-        movie = MovieDTO.from_dict(data)
-        self.assertEqual(movie.id, 2)
-        self.assertEqual(movie.title, "The Matrix")
-        self.assertEqual(movie.description, "")
+def test_movie_from_mapping_partial_data() -> None:
+    movie = Movie.from_mapping({"id": 2, "title": "The Matrix"})
+    assert movie.id == 2
+    assert movie.title == "The Matrix"
+    assert movie.description == ""
 
-    def test_from_dict_empty_dict(self):
-        movie = MovieDTO.from_dict({})
-        self.assertEqual(movie.id, 0)
-        self.assertEqual(movie.title, "")
-        self.assertEqual(movie.description, "")
 
-    def test_from_dict_invalid_type(self):
-        with self.assertRaises(ValueError) as cm:
-            MovieDTO.from_dict(["not", "a", "dict"])
-        self.assertIn("Expected dict", str(cm.exception))
+def test_movie_to_dict() -> None:
+    movie = Movie(id=3, title="Interstellar", description="Space")
+    assert movie.to_dict() == {
+        "id": 3,
+        "title": "Interstellar",
+        "description": "Space",
+    }
